@@ -30,32 +30,32 @@ object Build extends Build {
     settings = buildSettings ++ Seq(libraryDependencies ++= deps)
   ).dependsOn(spray_aws)
 
-  val spray_sqs = Project(
-    id = "spray-sqs",
-    base = file("spray-sqs"),
-    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
-  ).dependsOn(spray_aws)
+//  val spray_sqs = Project(
+//    id = "spray-sqs",
+//    base = file("spray-sqs"),
+//    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
+//  ).dependsOn(spray_aws)
+//
+//  val spray_kinesis = Project(
+//    id = "spray-kinesis",
+//    base = file("spray-kinesis"),
+//    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
+//  ).dependsOn(spray_aws)
+//
+//  val spray_route53 = Project(
+//    id = "spray-route53",
+//    base = file("spray-route53"),
+//    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
+//  ).dependsOn(spray_aws)
+//
+//  val spray_s3 = Project(
+//    id = "spray-s3",
+//    base = file("spray-s3"),
+//    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
+//  ).dependsOn(spray_aws)
 
-  val spray_kinesis = Project(
-    id = "spray-kinesis",
-    base = file("spray-kinesis"),
-    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
-  ).dependsOn(spray_aws)
 
-  val spray_route53 = Project(
-    id = "spray-route53",
-    base = file("spray-route53"),
-    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
-  ).dependsOn(spray_aws)
-
-  val spray_s3 = Project(
-    id = "spray-s3",
-    base = file("spray-s3"),
-    settings = buildSettings ++ Seq(libraryDependencies ++= deps)
-  ).dependsOn(spray_aws)
-
-
-  val root = Project(id = "spray-aws-project", base = file("."), settings = buildSettings ++ parentSettings).aggregate(spray_aws,spray_dynamodb,spray_kinesis,spray_sqs,spray_route53,spray_s3)
+  val root = Project(id = "spray-aws-project", base = file("."), settings = buildSettings ++ parentSettings).aggregate(spray_aws,spray_dynamodb)
 
 
 
@@ -105,11 +105,12 @@ object Build extends Build {
     publishArtifact in Compile := false
   )
 
-  def deps = Seq(aws, akka, scalaTest, akka_testkit, spray)
+  def deps = Seq(aws, akka, scalaTest, akka_testkit, akkaStream, akkaHttp)
 
-  val spray = "io.spray" %% "spray-client" % "1.3.2" % "compile"
+  val akkaStream = "com.typesafe.akka" %% "akka-stream-experimental" % "1.0-M5" % "compile"
+  val akkaHttp = "com.typesafe.akka" %% "akka-http-experimental" % "1.0-M5" % "compile"
   val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.9.1" % "compile"
-  val akka = "com.typesafe.akka" %% "akka-actor" % "2.3.5" % "compile"
-  val akka_testkit = "com.typesafe.akka" %% "akka-testkit" % "2.3.5" % "test"
+  val akka = "com.typesafe.akka" %% "akka-actor" % "2.3.9" % "compile"
+  val akka_testkit = "com.typesafe.akka" %% "akka-testkit" % "2.3.9" % "test"
   val scalaTest   = "org.scalatest"     %% "scalatest"   % "2.2.1" % "test"
 }
